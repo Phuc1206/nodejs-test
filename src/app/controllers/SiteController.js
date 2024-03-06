@@ -1,9 +1,20 @@
+const { response } = require('express');
+const Course = require('../models/Course');
 class SiteController {
-  index(res, req) {
-    req.render('home');
-  }
-  search(res, req) {
-    req.render('search');
+  index(req, res, next) {
+    Course.find({})
+    .then(courses => { 
+      courses = courses.map(courses => courses.toObject())
+      res.render('home',{
+      courses: courses
+    });})
+      .catch(next)
+          
+    }
+    // req.render('home');
+  
+  search(req, res) {
+    res.render('search');
   }
 }
 module.exports = new SiteController();
