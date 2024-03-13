@@ -9,5 +9,14 @@ class MeController {
     })
   .catch(next)
   }
+  trash(req,res,next){
+    Course.findWithDeleted({deleted: true})
+    .then(courses => {
+      courses = courses.map(courses => courses.toObject())
+      res.render('me/trash-courses',{courses: courses});
+    })
+    .catch(next)
+  }
+  
 }
 module.exports = new MeController();

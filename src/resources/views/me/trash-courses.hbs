@@ -1,7 +1,7 @@
 <div class="mt-4">
-  <div>
-    <h3>Khóa học của tôi</h3>
-    <a href="/me/trash/courses">Thùng rác</a>
+    <div>
+      <h3>Thúng rác</h3>
+      <a href="/me/stored/courses">Quay lại</a>
   </div>
         <table class="table mt-4">
     <thead>
@@ -21,15 +21,15 @@
             <td>{{this.level}}</td>
             <td>{{this.createAt}}</td>
             <td>
-                <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
-                <a href=""  class="btn btn-link"  data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#exampleModal">Xóa</a>
+                <a class="btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>
+                <a href=""  class="btn btn-link"  data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#exampleModal">Xóa vĩnh viễn</a>
             </td>
         </tr>
         {{else}}
         <tr>
           <td colspan="5" class="text-center">
-            Bạn chưa đăng khóa học nào.
-            <a href="/courses/create" class="btn btn-primary">Thêm khóa
+            Thùng rác rỗng
+            <a href="/me/stored/coursed" class="btn btn-primary">Quay lại danh sách khóa học
           </td>
         </tr>
         {{/each}}
@@ -55,12 +55,18 @@
 </div>
 {{! Delete form hidden}}
 <form method="post" name="delete-course-form"></form>
-<script>
+<form method="post" name="restore-course-form"></form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script >
   var courseId;
   var deleteForm = document.forms['delete-course-form']
+  var restoreForm = document.forms['restore-course-form']
   console.log(deleteForm)
   var btnDeleteCourse = document.getElementById('btn-delete-course')
   const exampleModal = document.getElementById('exampleModal')
+  var btnRestore = $('.btn-restore')
+  console.log(btnRestore)
+
   exampleModal.addEventListener('show.bs.modal', event => {
     
     // Button that triggered the modal
@@ -73,5 +79,12 @@
   btnDeleteCourse.addEventListener('click', function(e) {
     deleteForm.action = "/courses/" + courseId + "/?_method=DELETE" ;
     deleteForm.submit();
+    
+  })
+  btnRestore.click(function(e){
+    e.preventDefault();
+    var courseId = $(this).data('id')
+    restoreForm.action = '/courses/'+ courseId + '/restore?_method=PATCH'
+    restoreForm.submit();
   })
 </script>

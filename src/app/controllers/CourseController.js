@@ -25,8 +25,39 @@ class CourseController {
       const fromData = req.body;
       fromData.image = `https://img.youtube.com/vi/${req.body.videoId}/default.jpg`
       const course = new Course(fromData);
+      
       course.save()
-      res.send('saved')
+      .then(() =>{res.redirect(`/courses/${course.slug}`)})
+      .catch(next)
+      
+    }
+    restore(req, res,next){
+      Course.restore({_id: req.params._id})
+      .then(()=>res.redirect('/me/stored/courses'))
+      .catch(next)
+    }
+    updatecourse(req, res, next){
+      Course.findById(req.params._id).then((Course) =>{
+        Course = Course.toObject()
+        res.render(('courses/edit'),{Course: Course});})
+      .catch(next)
+    }
+    update(req, res, next) {
+      
+      Course.updateOne({_id: req.params._id}, req.body)
+      
+      .then(()=>{
+        res.redirect('/me/stored/courses')}
+      )
+      
+      .catch(next)
+    }
+    delete(req, res,next){
+      Course.delete({_id:req.params._id})
+      .then(()=>res.redirect('/me/stored/courses'))
+      .catch(next)
+    }
+    destroy(req, res, next){
       
     }
 }
