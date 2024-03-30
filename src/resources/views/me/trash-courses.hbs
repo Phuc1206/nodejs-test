@@ -77,7 +77,7 @@
   })
   
   btnDeleteCourse.addEventListener('click', function(e) {
-    deleteForm.action = "/courses/" + courseId + "/?_method=DELETE" ;
+    deleteForm.action = "/courses/" + courseId + "/destroy/?_method=DELETE" ;
     deleteForm.submit();
     
   })
