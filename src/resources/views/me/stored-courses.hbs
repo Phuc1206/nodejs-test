@@ -1,7 +1,22 @@
 <div class="mt-4">
   <div>
     <h3>Khóa học của tôi</h3>
-    <a href="/me/trash/courses">Thùng rác</a>
+    <a href="/me/trash/courses">Thùng rác({{deleteCount}})</a>
+  </div>
+  <div class="mt-4 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+      <label class="form-check-label" for="checkbox-all">
+            Chọn tất cả
+      </label>
+  </div>
+  <select class="form-select form-select-sm checkbox-select-all-option" aria-label="Default select example" id="">
+
+    <option >Chọn hành động</option>
+    <option value="delete">Xóa</option>
+</select>
+  <button class="btn btn-primary btn-sm disabled">Thực hiện</button>
+  </div>
   </div>
         <table class="table mt-4">
     <thead>
@@ -17,9 +32,14 @@
         {{#each courses}}
         <tr>
             <th scope="row">{{sum @index 1}}</th>
+            <td>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}">
+              </div>
+            </td>
             <td>{{this.name}}</td>
             <td>{{this.level}}</td>
-            <td>{{this.createAt}}</td>
+            <td>{{this.createdAt}}</td>
             <td>
                 <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
                 <a href=""  class="btn btn-link"  data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#exampleModal">Xóa</a>
@@ -55,12 +75,14 @@
 </div>
 {{! Delete form hidden}}
 <form method="post" name="delete-course-form"></form>
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script >
   var courseId;
   var deleteForm = document.forms['delete-course-form']
   console.log(deleteForm)
   var btnDeleteCourse = document.getElementById('btn-delete-course')
   const exampleModal = document.getElementById('exampleModal')
+  var checkboxAll = $("#checkbox-all")
   exampleModal.addEventListener('show.bs.modal', event => {
     
     // Button that triggered the modal
@@ -74,4 +96,5 @@
     deleteForm.action = "/courses/" + courseId + "/?_method=DELETE" ;
     deleteForm.submit();
   })
+  console.log(checkboxAll)
 </script>
