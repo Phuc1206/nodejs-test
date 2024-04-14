@@ -85,5 +85,13 @@ class CourseController {
           res.json({message : 'invail'})
       }
     }
+    showjson(req,res,next){
+      Course.find({})
+      .then(courses => { 
+        courses = courses.map(courses => courses.toObject())
+        res.json(courses)
+    })
+    .catch(next)
+  }
 }
 module.exports = new CourseController();
