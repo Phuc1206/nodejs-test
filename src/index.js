@@ -48,8 +48,8 @@ app.engine('.hbs', handlebars.engine({
         asc:     'desc',
       }
 
-      const icon = icons[sort.type]
-      const type = types[sort.type]
+      const icon = icons[sortType] 
+      const type = types[sortType]
 
       return `<a href="?_sort&column=${field}&type=${type}">
                 <i class="${icon}"></i>
